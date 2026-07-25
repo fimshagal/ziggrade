@@ -123,14 +123,9 @@ store.callResolver("score");
 
 ---
 
-## Comptime schema (`TypedStore`) — does **not** break reactivity
+## TypedStore (comptime schema)
 
-The dynamic store stays the source of truth. `TypedStore(Schema)` is a thin facade:
-
-- comptime field names → string prop keys
-- Zig types → `Value` conversion
-- `set` / `setPartial` still go through `Store`, so **listeners, ward, history, persist keep working**
-- Extra dynamic props via `ts.store.addProp(...)` still allowed
+Optional typed API over the store. You declare a struct once; field names and types are checked at compile time. Under the hood it still talks to the same `Store` (string keys + `Value`), so layers attach as usual. Dynamic props remain available on `ts.store`.
 
 ```zig
 const Sim = struct {
@@ -200,15 +195,15 @@ hist.unhold();
 
 ---
 
-## Persist (beyond the browser)
+## Persist
 
-There is no `localStorage`. Plug in a `Storage` adapter:
+Optional layer that snapshots store props to a `Storage` backend and can restore them on attach. You choose where bytes live:
 
 | Adapter | Use |
 |---------|-----|
-| `MemoryStorage` | tests / ephemeral |
+| `MemoryStorage` | in-memory map (handy for tests) |
 | `FileStorage` | `<dir>/<key>.json` via `std.Io` |
-| custom | DB, mmap, network — implement `Storage` vtable |
+| custom | anything with `read` / `write` / `remove` |
 
 ```zig
 var mem = Ziggrade.MemoryStorage.init(gpa);
