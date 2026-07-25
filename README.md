@@ -1,6 +1,6 @@
 # Ziggrade
 
-Reactive data store for Zig — simulations, tools, native apps. Same idea as [tardigrade-store](https://github.com/): a tiny core that holds data and notifies on change, plus optional layers you attach only when needed.
+Reactive data store for Zig — simulations, tools, native apps. Same idea as [tardigrade-store](https://www.npmjs.com/package/tardigrade-store): a tiny core that holds data and notifies on change, plus optional layers you attach only when needed.
 
 ```
 core (store + value)     ← always
